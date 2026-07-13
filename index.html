@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeless Hero — Case File #48</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#080d20;
+    --navy:#0e1530;
+    --navy-soft:#131b3b;
+    --gold:#f5b700;
+    --gold-soft:#ffd75e;
+    --cream:#fff6df;
+    --ink:#12172b;
+    --stamp:#c1443c;
+    --paper:#efe3c2;
+    --line: rgba(245,183,0,0.25);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--gold); color:var(--ink); }
+
+  h1,h2,h3, .display{
+    font-family:'Bebas Neue', sans-serif;
+    letter-spacing:0.5px;
+    line-height:0.95;
+  }
+  .stamp-font{ font-family:'Special Elite', monospace; }
+
+  a{color:inherit; text-decoration:none;}
+  button{ font-family:'Inter', sans-serif; cursor:pointer; border:none; }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:var(--gold);
+    border-bottom:3px solid var(--ink);
+  }
+  .nav-wrap{
+    max-width:1200px; margin:0 auto; padding:16px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand-mark{
+    width:38px; height:38px; border-radius:50%;
+    background:var(--ink); display:flex; align-items:center; justify-content:center;
+    font-size:18px;
+  }
+  .brand-text .name{ font-family:'Bebas Neue'; font-size:20px; letter-spacing:2px; }
+  .brand-text .sub{ font-size:9px; letter-spacing:3px; opacity:0.7; font-weight:600; }
+  nav ul{ display:flex; gap:30px; list-style:none; }
+  nav a{
+    font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+    padding-bottom:4px; border-bottom:2px solid transparent; transition:.2s;
+  }
+  nav a:hover{ border-color:var(--ink); }
+  .nav-heart{
+    width:36px; height:36px; border-radius:50%; background:var(--ink); color:var(--gold);
+    display:flex; align-items:center; justify-content:center; font-size:16px;
+    transition:.25s; position:relative;
+  }
+  .nav-heart:hover{ transform:scale(1.12) rotate(-8deg); }
+  #eggCount{
+    position:absolute; top:-6px; right:-6px; background:var(--stamp); color:#fff;
+    font-size:9px; width:16px; height:16px; border-radius:50%; display:none;
+    align-items:center; justify-content:center; font-weight:800;
+  }
+  .menu-toggle{ display:none; background:none; font-size:22px; color:var(--ink); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:linear-gradient(180deg, var(--navy-deep), var(--navy) 60%, var(--navy-soft));
+    padding:70px 28px 90px;
+    overflow:hidden;
+  }
+  .hero-inner{
+    max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;
+    position:relative; z-index:2;
+  }
+  .eyebrow{ color:var(--gold); font-size:12px; letter-spacing:3px; font-weight:800; text-transform:uppercase; margin-bottom:14px; }
+  .hero h1{
+    color:#fff; font-size:clamp(40px,6vw,70px);
+  }
+  .hero h1 .gold{ color:var(--gold); }
+  .hero p.lead{ color:#c9cede; max-width:480px; margin:20px 0 30px; font-size:15.5px; line-height:1.7; }
+  .btn-primary{
+    background:var(--gold); color:var(--ink); font-weight:800; font-size:13px; letter-spacing:1px;
+    text-transform:uppercase; padding:15px 26px; border-radius:6px; display:inline-flex; align-items:center; gap:8px;
+    transition:.2s; box-shadow:0 10px 25px -8px rgba(245,183,0,0.5);
+  }
+  .btn-primary:hover{ transform:translateY(-3px); box-shadow:0 16px 30px -8px rgba(245,183,0,0.65); }
+  .btn-ghost{
+    background:transparent; border:2px solid var(--ink); color:var(--ink); font-weight:800; font-size:12px;
+    letter-spacing:1px; text-transform:uppercase; padding:11px 20px; border-radius:6px; transition:.2s;
+  }
+  .btn-ghost:hover{ background:var(--ink); color:var(--gold); }
+  .btn-ghost.light{ border-color:#fff; color:#fff; }
+  .btn-ghost.light:hover{ background:#fff; color:var(--navy); }
+
+  .case-panel{
+    background:var(--paper); border-radius:10px; padding:26px; position:relative;
+    box-shadow:0 25px 60px -15px rgba(0,0,0,0.6); transform:rotate(2deg);
+    border:1px solid rgba(0,0,0,0.15);
+  }
+  .case-panel::before{
+    content:''; position:absolute; inset:8px; border:1px dashed rgba(0,0,0,0.25); border-radius:6px; pointer-events:none;
+  }
+  .case-file-tag{
+    font-family:'Special Elite'; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#7a6a3a;
+  }
+  .case-file-num{ font-family:'Bebas Neue'; font-size:36px; margin:6px 0 14px; color:var(--ink); }
+  .case-watch-wrap{ text-align:center; margin:10px 0 16px; }
+  .watch-visual{ width:150px; height:150px; margin:0 auto; }
+  .case-note{ font-family:'Special Elite'; font-size:13px; line-height:1.6; color:#4a3f22; }
+  .case-note .who{ font-family:'Bebas Neue'; font-size:26px; color:var(--stamp); letter-spacing:2px; }
+  .stamp-badge{
+    position:absolute; top:16px; right:16px; border:3px solid var(--stamp); color:var(--stamp);
+    font-family:'Special Elite'; font-size:11px; padding:4px 10px; border-radius:4px; transform:rotate(9deg);
+    letter-spacing:1px; opacity:0.85;
+  }
+
+  /* floating clock ticks bg */
+  .tick{ position:absolute; border-radius:50%; border:2px solid rgba(245,183,0,0.08); }
+
+  /* ---------- SECTION SHARED ---------- */
+  section{ padding:70px 28px; }
+  .section-inner{ max-width:1200px; margin:0 auto; }
+  .section-head{ margin-bottom:34px; }
+  .section-head .eyebrow{ margin-bottom:8px; }
+  .section-head h2{ font-size:clamp(30px,4vw,46px); }
+  .section-head p{ max-width:520px; margin-top:14px; font-size:14.5px; line-height:1.7; opacity:0.85;}
+
+  .section-gold{ background:var(--gold); }
+  .section-navy{ background:var(--navy-deep); color:#fff; }
+  .section-navy .eyebrow{ color:var(--gold); }
+  .section-navy p{ color:#c9cede; }
+  .section-cream{ background:var(--cream); }
+
+  /* ---------- STATS ---------- */
+  .stats-row{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:20px; align-items:start; margin-top:10px;
+  }
+  .stat{ text-align:left; padding-left:18px; border-left:2px solid rgba(18,23,43,0.15); }
+  .stat-icon{ font-size:20px; margin-bottom:12px; }
+  .stat .num{ font-family:'Bebas Neue'; font-size:clamp(28px,3.4vw,40px); }
+  .stat .label{ font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; opacity:0.7; }
+  .hint{ font-size:11px; margin-top:16px; opacity:0.55; font-style:italic; }
+
+  /* ---------- WATCHLIST ---------- */
+  .show-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:16px; }
+  .show-card{
+    aspect-ratio:3/4; border-radius:10px; position:relative; overflow:hidden; cursor:pointer;
+    perspective:1000px; height:270px;
+  }
+  .show-inner{
+    position:relative; width:100%; height:100%; transition:transform .6s cubic-bezier(.4,.2,.2,1); transform-style:preserve-3d;
+  }
+  .show-card.flipped .show-inner{ transform:rotateY(180deg); }
+  .show-face{
+    position:absolute; inset:0; border-radius:10px; backface-visibility:hidden;
+    display:flex; flex-direction:column; justify-content:flex-end; padding:16px;
+  }
+  .show-face.front{ display:flex; align-items:flex-end; }
+  .show-face.front .glyph{
+    position:absolute; top:16px; left:16px; font-size:26px; opacity:0.85;
+  }
+  .show-face.front .title{ font-family:'Bebas Neue'; font-size:22px; color:#fff; letter-spacing:1px; }
+  .show-face.back{
+    transform:rotateY(180deg); align-items:center; text-align:center; justify-content:center;
+    background:var(--navy-deep); color:#fff; padding:20px;
+  }
+  .show-face.back p{ font-size:12.5px; line-height:1.6; color:#dfe3f2; }
+  .show-face.back .back-title{ font-family:'Bebas Neue'; color:var(--gold); font-size:18px; margin-bottom:8px; letter-spacing:1px; }
+
+  /* ---------- WATCH COLLECTION ---------- */
+  .watch-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; margin-top:10px; }
+  .watch-card{
+    background:var(--ink); border-radius:12px; padding:22px 16px 20px; text-align:center; cursor:pointer;
+    transition:.25s; border:1px solid rgba(255,255,255,0.06); position:relative;
+  }
+  .watch-card:hover{ transform:translateY(-6px); box-shadow:0 20px 35px -12px rgba(0,0,0,0.4); }
+  .watch-card .watch-visual{ width:110px; height:110px; margin:0 auto 14px; }
+  .watch-name{ color:var(--gold); font-family:'Bebas Neue'; font-size:19px; letter-spacing:1px; }
+  .watch-sub{ color:#9aa0b8; font-size:11px; margin-top:2px; }
+  .tap-hint{ color:#6b7190; font-size:9.5px; margin-top:10px; letter-spacing:1px; text-transform:uppercase; }
+
+  /* ---------- MEMORIES ---------- */
+  .memories-wrap{ display:grid; grid-template-columns:1fr 1.6fr; gap:36px; align-items:center; }
+  .polaroid-belt{ display:flex; gap:16px; flex-wrap:wrap; }
+  .polaroid{
+    background:#fff; padding:10px 10px 34px; width:150px; border-radius:3px; box-shadow:0 12px 25px -8px rgba(0,0,0,0.45);
+    cursor:pointer; position:relative; transform:rotate(var(--r,0deg)); transition:.25s; perspective:900px;
+  }
+  .polaroid:hover{ transform:rotate(0deg) translateY(-6px) scale(1.03); z-index:2; }
+  .polaroid-photo{
+    width:100%; aspect-ratio:1/1; border-radius:2px; position:relative; overflow:hidden;
+    display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.85); font-size:26px;
+  }
+  .polaroid-cap{
+    font-family:'Special Elite'; font-size:10.5px; text-align:center; margin-top:8px; color:#3a3220; line-height:1.4;
+  }
+  .polaroid-tape{
+    position:absolute; top:-8px; left:50%; transform:translateX(-50%) rotate(-3deg); width:50px; height:16px;
+    background:rgba(245,220,150,0.6); border:1px solid rgba(0,0,0,0.05);
+  }
+  .quote-block{
+    text-align:center; margin-top:28px; font-family:'Special Elite'; font-size:16px; color:#fbe9b0; line-height:1.7;
+  }
+
+  /* upload affordance */
+  .upload-note{ font-size:10px; opacity:0.6; margin-top:14px; font-style:italic; }
+  input[type=file]{ display:none; }
+
+  /* ---------- GUESTBOOK ---------- */
+  .guestbook{ background:var(--paper); border-radius:14px; padding:30px; }
+  .guestbook textarea{
+    width:100%; min-height:80px; border-radius:8px; border:1px solid rgba(0,0,0,0.15); padding:14px;
+    font-family:'Inter'; font-size:13.5px; resize:vertical; background:#fffdf6;
+  }
+  .guestbook textarea:focus{ outline:2px solid var(--gold); }
+  .guest-list{ margin-top:18px; display:flex; flex-direction:column; gap:10px; }
+  .guest-item{
+    background:#fffdf6; border-left:4px solid var(--gold); padding:10px 14px; border-radius:6px; font-size:13px;
+  }
+
+  /* ---------- BIRTHDAY / FINAL ---------- */
+  .birthday-section{
+    background:var(--gold); position:relative; overflow:hidden; text-align:center; padding:90px 28px;
+  }
+  .birthday-section h2{ font-size:clamp(32px,6vw,58px); }
+  .birthday-section .script{ font-family:'Special Elite'; font-size:clamp(22px,3vw,32px); margin:8px 0 20px; }
+  .birthday-section p{ max-width:520px; margin:0 auto 26px; font-size:14.5px; line-height:1.8; }
+  .balloon{
+    position:absolute; width:60px; height:76px; border-radius:50% 50% 50% 50% / 55% 55% 45% 45%;
+    cursor:pointer; transition:.15s; filter:drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+  }
+  .balloon::after{
+    content:''; position:absolute; bottom:-26px; left:50%; width:1px; height:26px; background:rgba(0,0,0,0.3);
+  }
+  .balloon:hover{ transform:scale(1.08) rotate(-4deg); }
+  .sticky-note{
+    background:#fff6c8; padding:18px; width:170px; font-family:'Special Elite'; font-size:11.5px; line-height:1.6;
+    box-shadow:0 10px 20px -6px rgba(0,0,0,0.25); transform:rotate(4deg); position:absolute; right:60px; top:60px;
+  }
+  .gift-box{ font-size:60px; position:absolute; left:40px; bottom:30px; }
+
+  footer{
+    background:var(--navy-deep); color:#8b91ab; text-align:center; padding:24px; font-size:12px;
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; padding-left:28px; padding-right:28px;
+  }
+  footer .msg{ color:var(--gold); font-weight:800; letter-spacing:1.5px; font-size:12px; }
+  .to-top{
+    width:34px; height:34px; border-radius:50%; border:1px solid #3a4166; display:flex; align-items:center;
+    justify-content:center; color:var(--gold);
+  }
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(8,13,32,0.75); backdrop-filter:blur(3px); z-index:1000;
+    display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-overlay.active{ display:flex; }
+  .modal-card{
+    background:var(--paper); max-width:420px; width:100%; border-radius:12px; padding:30px; position:relative;
+    box-shadow:0 30px 70px -15px rgba(0,0,0,0.6); animation:pop .3s ease;
+  }
+  @keyframes pop{ from{ transform:scale(0.85); opacity:0;} to{ transform:scale(1); opacity:1;} }
+  .modal-close{
+    position:absolute; top:12px; right:12px; width:28px; height:28px; border-radius:50%; background:var(--ink);
+    color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:14px;
+  }
+  .modal-card .tag{ font-family:'Special Elite'; font-size:11px; color:#7a6a3a; letter-spacing:2px; text-transform:uppercase; }
+  .modal-card h3{ font-size:30px; margin:8px 0 14px; }
+  .modal-card p{ font-family:'Special Elite'; font-size:13.5px; line-height:1.75; color:#4a3f22; }
+
+  /* confetti */
+  .confetti-piece{ position:fixed; top:-10px; z-index:2000; border-radius:2px; pointer-events:none; }
+
+  @media (max-width:960px){
+    .hero-inner{ grid-template-columns:1fr; }
+    nav ul{ display:none; }
+    .menu-toggle{ display:block; }
+    .stats-row{ grid-template-columns:repeat(2,1fr); gap:26px; }
+    .show-grid{ grid-template-columns:repeat(2,1fr); }
+    .watch-grid{ grid-template-columns:repeat(2,1fr); }
+    .memories-wrap{ grid-template-columns:1fr; }
+    .sticky-note{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <div class="nav-wrap">
+    <div class="brand">
+      <div class="brand-mark">⌚</div>
+      <div class="brand-text">
+        <div class="name">TIMELESS HERO</div>
+        <div class="sub">SINCE 1978</div>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About You</a></li>
+        <li><a href="#favorites">Favorites</a></li>
+        <li><a href="#memories">Memories</a></li>
+        <li><a href="#collection">Gallery</a></li>
+        <li><a href="#guestbook">Message</a></li>
+      </ul>
+    </nav>
+    <div class="nav-heart" id="eggHeart" title="???">
+      ♥
+      <span id="eggCount">0</span>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">Happy Birthday</div>
+      <h1>TO THE MAN<br>BEHIND OUR<br><span class="gold">BEST TIMES</span></h1>
+      <p class="lead">A story of strength, time, and countless moments that made our lives extraordinary. 48 years in, and you're still the best thing that ever happened to this family.</p>
+      <div style="display:flex; gap:14px; flex-wrap:wrap;">
+        <a href="#about" class="btn-primary">Start the Investigation →</a>
+        <button class="btn-ghost light" onclick="burstConfetti()">🎉 Set off confetti</button>
+      </div>
+    </div>
+    <div class="case-panel">
+      <div class="stamp-badge">CLASSIFIED</div>
+      <div class="case-file-tag">Case File</div>
+      <div class="case-file-num">#48</div>
+      <div class="case-watch-wrap">
+        <svg class="watch-visual" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="46" fill="#1a2140" stroke="#f5b700" stroke-width="4"/>
+          <circle cx="60" cy="60" r="38" fill="#0e1530" stroke="#3a446e" stroke-width="1"/>
+          <line x1="60" y1="60" x2="60" y2="32" stroke="#f5b700" stroke-width="3" stroke-linecap="round"/>
+          <line x1="60" y1="60" x2="80" y2="66" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="60" cy="60" r="3" fill="#f5b700"/>
+          <rect x="52" y="6" width="16" height="10" rx="2" fill="#1a2140"/>
+          <rect x="52" y="104" width="16" height="10" rx="2" fill="#1a2140"/>
+        </svg>
+      </div>
+      <div class="case-note">
+        Subject: <span class="who">PAPA</span><br>
+        Status: Legend. Guide. Protector.<br>
+        Notes: "Some people don't believe in heroes, but they haven't met my papa."
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / STATS -->
+<section class="section-gold" id="about">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">About You</div>
+      <h2>48 YEARS OF AWESOMENESS!</h2>
+      <p>You don't just watch time, you make every second count. This counter has been running live since the moment you scrolled here — just like you never really stop.</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-icon">📅</div><div class="num" id="statDays">0</div><div class="label">Days</div></div>
+      <div class="stat"><div class="stat-icon">🕐</div><div class="num" id="statHours">0</div><div class="label">Hours</div></div>
+      <div class="stat"><div class="stat-icon">⏱️</div><div class="num" id="statMinutes">0</div><div class="label">Minutes (ticking live)</div></div>
+      <div class="stat"><div class="stat-icon">🤍</div><div class="num">Countless</div><div class="label">Memories</div></div>
+    </div>
+    <div class="hint">Psst — that minutes counter is actually ticking in real time. Watch it for a second.</div>
+    <br>
+    <button class="btn-ghost">🤍 We Love You</button>
+  </div>
+</section>
+
+<!-- WATCHLIST -->
+<section class="section-navy" id="favorites">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">What You Love</div>
+      <h2>DRAMA. THRILLER. ADRENALINE.</h2>
+      <p>The stories you love, the shows that keep you on the edge. Tap a case file to open it.</p>
+    </div>
+    <div class="show-grid" id="showGrid"></div>
+  </div>
+</section>
+
+<!-- WATCH COLLECTION -->
+<section class="section-cream" id="collection">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">Your Love</div>
+      <h2>TIME WELL COLLECTED</h2>
+      <p>Every watch has a story, every second a memory, every moment, you. Click any watch — each one's hiding a note.</p>
+    </div>
+    <div class="watch-grid" id="watchGrid"></div>
+  </div>
+</section>
+
+<!-- MEMORIES -->
+<section class="section-navy" id="memories">
+  <div class="section-inner">
+    <div class="memories-wrap">
+      <div>
+        <div class="eyebrow">Memories</div>
+        <h2>MOMENTS THAT MATTER</h2>
+        <p>From vacations to ordinary days that became extraordinary because you were there. Flip a photo for the memory behind it — or drop in your own.</p>
+        <label class="btn-primary" for="photoUpload" style="margin-top:10px; cursor:pointer;">📷 Add a real photo</label>
+        <input type="file" id="photoUpload" accept="image/*">
+        <div class="upload-note">Uploaded photos stay only in this browser tab — they won't be saved when you close the page.</div>
+      </div>
+      <div>
+        <div class="polaroid-belt" id="polaroidBelt"></div>
+        <div class="quote-block">"Some people don't believe in heroes,<br>but they haven't met my papa." 🤍</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUESTBOOK -->
+<section class="section-gold" id="guestbook">
+  <div class="section-inner">
+    <div class="section-head">
+      <div class="eyebrow">Leave a Note</div>
+      <h2>WRITE PAPA A LINE</h2>
+      <p>Add your own birthday message to the case file. Everyone can add one before the big reveal.</p>
+    </div>
+    <div class="guestbook">
+      <textarea id="guestInput" placeholder="Papa, thank you for..."></textarea>
+      <br><br>
+      <button class="btn-ghost" onclick="addGuestMessage()">✍️ Add to the file</button>
+      <div class="guest-list" id="guestList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- BIRTHDAY -->
+<section class="birthday-section" id="birthday">
+  <div class="gift-box">🎁</div>
+  <div class="sticky-note">Here's to more adventures, more memories, and more time together!</div>
+  <div id="balloonField"></div>
+  <div class="eyebrow">Case Closed. Mystery Solved.</div>
+  <h2>HAPPY 48TH BIRTHDAY</h2>
+  <div class="script">Papa ♡</div>
+  <p>Thank you for your endless love, your guidance, and for always being our greatest support. We love you beyond time. Always.</p>
+  <button class="btn-ghost" onclick="burstConfetti(true)">🎈 Pop the celebration</button>
+</section>
+
+<footer>
+  <div>🤍 Made with love, just for you</div>
+  <div class="msg">THE BEST Papa. OUR HERO. OUR EVERYTHING.</div>
+  <a href="#hero" class="to-top">↑</a>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-card">
+    <div class="modal-close" onclick="closeModal()">✕</div>
+    <div class="tag" id="modalTag">Case Note</div>
+    <h3 id="modalTitle">Title</h3>
+    <p id="modalBody">Body</p>
+  </div>
+</div>
+
+<script>
+/* ---------------- LIVE STATS (real ticking counter since a chosen birth year) ---------------- */
+const YEARS = 48;
+const birthDate = new Date();
+birthDate.setFullYear(birthDate.getFullYear() - YEARS);
+
+function updateStats(){
+  const now = new Date();
+  const diffMs = now - birthDate;
+  const days = Math.floor(diffMs / 86400000);
+  const hours = Math.floor(diffMs / 3600000);
+  const minutes = Math.floor(diffMs / 60000);
+  document.getElementById('statDays').textContent = days.toLocaleString();
+  document.getElementById('statHours').textContent = hours.toLocaleString();
+  document.getElementById('statMinutes').textContent = minutes.toLocaleString();
+}
+updateStats();
+setInterval(updateStats, 1000);
+
+/* ---------------- WATCHLIST (no copyrighted artwork, stylized case cards) ---------------- */
+const shows = [
+  {title:"BREAKING BAD", glyph:"🧪", grad:"linear-gradient(160deg,#1c1f14,#4a4a1a)", back:"Every hero has a transformation arc. Yours just didn't need a lab coat — a toolbox and Sunday mornings did the trick."},
+  {title:"MONEY HEIST", grad:"linear-gradient(160deg,#3a0d0d,#7a1010)", glyph:"🎭", back:"You've pulled off the greatest heist of all — stealing our hearts, one dad joke at a time."},
+  {title:"SHERLOCK", grad:"linear-gradient(160deg,#101820,#1f3040)", glyph:"🔍", back:"You always seem to know exactly what's going on before anyone tells you. Elementary, dear Papa."},
+  {title:"DEXTER", grad:"linear-gradient(160deg,#2a0a0a,#5a1414)", glyph:"🩸", back:"You've got a code too — work hard, love harder, and never miss family dinner."},
+  {title:"PRISON BREAK", grad:"linear-gradient(160deg,#101418,#2c3440)", glyph:"⛓️", back:"You've broken out of every hard year life threw at you — and always found a way to bring us all with you."},
+];
+const showGrid = document.getElementById('showGrid');
+shows.forEach((s,i)=>{
+  const card = document.createElement('div');
+  card.className = 'show-card';
+  card.innerHTML = `
+    <div class="show-inner">
+      <div class="show-face front" style="background:${s.grad}">
+        <div class="glyph">${s.glyph}</div>
+        <div class="title">${s.title}</div>
+      </div>
+      <div class="show-face back">
+        <div class="back-title">${s.title}</div>
+        <p>${s.back}</p>
+      </div>
+    </div>`;
+  card.addEventListener('click', ()=> card.classList.toggle('flipped'));
+  showGrid.appendChild(card);
+});
+
+/* ---------------- WATCH COLLECTION (click opens modal note) ---------------- */
+const watches = [
+  {name:"THE EXPLORER", sub:"The Adventurer", face:"#1a2140", accent:"#f5b700",
+    title:"The Explorer", body:"Every trip you planned, every wrong turn that became an adventure — this one's for the man who was never afraid to get us a little lost."},
+  {name:"THE CLASSIC", sub:"The Timeless", face:"#2a220f", accent:"#f5d36b",
+    title:"The Classic", body:"Some things never go out of style. Your handshake, your advice, your Sunday routine — timeless, all of it."},
+  {name:"THE CHRONOGRAPH", sub:"The Performer", face:"#111318", accent:"#8fa0c9",
+    title:"The Chronograph", body:"You've always kept perfect time for us — every school pickup, every big moment, right on schedule."},
+  {name:"THE LEGACY", sub:"The One For Us", face:"#241713", accent:"#d98b4a",
+    title:"The Legacy", body:"This one's not really about the watch. It's about everything you're passing down without ever saying a word."},
+];
+const watchGrid = document.getElementById('watchGrid');
+watches.forEach(w=>{
+  const card = document.createElement('div');
+  card.className = 'watch-card';
+  card.innerHTML = `
+    <svg class="watch-visual" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="44" fill="${w.face}" stroke="${w.accent}" stroke-width="4"/>
+      <circle cx="60" cy="60" r="36" fill="#0000001a"/>
+      <line x1="60" y1="60" x2="60" y2="34" stroke="${w.accent}" stroke-width="3" stroke-linecap="round"/>
+      <line x1="60" y1="60" x2="78" y2="68" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="60" cy="60" r="3" fill="${w.accent}"/>
+    </svg>
+    <div class="watch-name">${w.name}</div>
+    <div class="watch-sub">${w.sub}</div>
+    <div class="tap-hint">Tap to reveal ✦</div>
+  `;
+  card.addEventListener('click', ()=> openModal('Case Note', w.title, w.body));
+  watchGrid.appendChild(card);
+});
+
+/* ---------------- MODAL ---------------- */
+function openModal(tag, title, body){
+  document.getElementById('modalTag').textContent = tag;
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').textContent = body;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+function closeModal(){ document.getElementById('modalOverlay').classList.remove('active'); }
+document.getElementById('modalOverlay').addEventListener('click', e=>{
+  if(e.target.id === 'modalOverlay') closeModal();
+});
+
+/* ---------------- POLAROIDS ---------------- */
+const memories = [
+  {grad:"linear-gradient(160deg,#ff9d4d,#2c3e6b)", icon:"🤠", cap:"The Ranthambore trip where your hat flew"},
+  {grad:"linear-gradient(160deg,#3a6b8a,#152238)", icon:"⛵", cap:"The Vietnam trip where you almost drowned"},
+  {grad:"linear-gradient(160deg,#4a7c3f,#213a1c)", icon:"📸", cap:"The Rajasthan trip where we clicked so many photos"},
+  {grad:"linear-gradient(160deg,#3f5f7a,#101c2c)", icon:"🥪", cap:"The time you drove 2 hours to get me a sandwhich"},
+  {grad:"linear-gradient(160deg,#ffcf7a,#33230f)", icon:"🫧", cap:"The time you screamed bubbles"},
+];
+const polaroidBelt = document.getElementById('polaroidBelt');
+memories.forEach((m,i)=>{
+  const rot = (i%2===0? -4: 4) + (i*1.3);
+  const card = document.createElement('div');
+  card.className = 'polaroid';
+  card.style.setProperty('--r', rot+'deg');
+  card.innerHTML = `
+    <div class="polaroid-tape"></div>
+    <div class="polaroid-photo" style="background:${m.grad}">${m.icon}</div>
+    <div class="polaroid-cap" data-cap="${m.cap}">Tap for the memory</div>
+  `;
+  card.addEventListener('click', function(){
+    const capEl = this.querySelector('.polaroid-cap');
+    capEl.textContent = capEl.textContent === 'Tap for the memory' ? m.cap : 'Tap for the memory';
+  });
+  polaroidBelt.appendChild(card);
+});
+
+/* real photo upload -> replaces first polaroid, session only */
+document.getElementById('photoUpload').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const first = polaroidBelt.querySelector('.polaroid-photo');
+    first.style.background = `center/cover url(${ev.target.result})`;
+    first.textContent = '';
+  };
+  reader.readAsDataURL(file);
+});
+
+/* ---------------- GUESTBOOK ---------------- */
+function addGuestMessage(){
+  const input = document.getElementById('guestInput');
+  const text = input.value.trim();
+  if(!text) return;
+  const item = document.createElement('div');
+  item.className = 'guest-item';
+  item.textContent = text;
+  document.getElementById('guestList').prepend(item);
+  input.value = '';
+  burstConfetti();
+}
+
+/* ---------------- BALLOONS ---------------- */
+const balloonColors = ['#0e1530','#f5b700','#1a2140','#e8b64d'];
+const balloonField = document.getElementById('balloonField');
+function spawnBalloons(){
+  balloonField.innerHTML = '';
+  for(let i=0;i<7;i++){
+    const b = document.createElement('div');
+    b.className = 'balloon';
+    b.style.left = (5 + i*13 + Math.random()*4) + '%';
+    b.style.top = (10 + Math.random()*30) + '%';
+    b.style.background = balloonColors[i % balloonColors.length];
+    b.addEventListener('click', function(){
+      this.style.transform = 'scale(0)';
+      this.style.opacity = '0';
+      confettiBurstAt(this.getBoundingClientRect());
+      setTimeout(()=> this.remove(), 200);
+    });
+    balloonField.appendChild(b);
+  }
+}
+spawnBalloons();
+
+/* ---------------- CONFETTI ---------------- */
+function confettiBurstAt(rect){
+  const colors = ['#f5b700','#ffffff','#0e1530','#e8542a','#ffd75e'];
+  for(let i=0;i<24;i++){
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    const size = 6 + Math.random()*6;
+    p.style.width = size+'px';
+    p.style.height = size*0.6+'px';
+    p.style.background = colors[Math.floor(Math.random()*colors.length)];
+    p.style.left = (rect.left + rect.width/2) + 'px';
+    p.style.top = (rect.top) + 'px';
+    document.body.appendChild(p);
+    const angle = Math.random()*Math.PI*2;
+    const dist = 100 + Math.random()*200;
+    const dx = Math.cos(angle)*dist;
+    const dy = Math.abs(Math.sin(angle))*dist*1.4 + 200;
+    const rot = Math.random()*720 - 360;
+    p.animate([
+      {transform:'translate(0,0) rotate(0deg)', opacity:1},
+      {transform:`translate(${dx}px, ${dy}px) rotate(${rot}deg)`, opacity:0}
+    ], {duration: 1400+Math.random()*600, easing:'cubic-bezier(.2,.6,.4,1)'});
+    setTimeout(()=> p.remove(), 2100);
+  }
+}
+function burstConfetti(big){
+  const centerRect = {left: window.innerWidth/2 - 5, top: big? window.innerHeight*0.3 : 100, width:10};
+  confettiBurstAt(centerRect);
+  if(big){
+    confettiBurstAt({left: window.innerWidth*0.2, top: window.innerHeight*0.3, width:10});
+    confettiBurstAt({left: window.innerWidth*0.8, top: window.innerHeight*0.3, width:10});
+  }
+}
+
+/* ---------------- HIDDEN EASTER EGG (click heart 5x) ---------------- */
+let eggClicks = 0;
+document.getElementById('eggHeart').addEventListener('click', function(){
+  eggClicks++;
+  const badge = document.getElementById('eggCount');
+  if(eggClicks < 5){
+    badge.style.display = 'flex';
+    badge.textContent = eggClicks;
+  }
+  if(eggClicks === 5){
+    badge.style.display = 'none';
+    eggClicks = 0;
+    openModal('Secret Found', 'You found it. ♡', "Somewhere between all these clicks, here's the truth: none of this — the watches, the shows, the years — means anything without you in it. Happy Birthday, Papa. This whole page was made just to make you smile for five minutes today.");
+    burstConfetti(true);
+    spawnBalloons();
+  }
+});
+</script>
+</body>
+</html>
